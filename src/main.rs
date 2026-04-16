@@ -2,6 +2,7 @@ use owo_colors::OwoColorize;
 use dialoguer::Select;
 
 mod terminal;
+mod theme;
 mod delete_screenshots;
 use delete_screenshots::menu::delete_screenshots_menu;
 
@@ -22,12 +23,13 @@ impl MenuOptions {
     }
 }
 fn main() {
+    let menu_theme = theme::menu_theme();
     let options: Vec<&str> = vec![MenuOptions::DeleteScreenshots.to_string(), MenuOptions::Exit.to_string()];
     loop {
         terminal::clear_screen();
         println!("{}", "Welcome to DedustFS".blue().bold());
         println!("{}", "What would you like to do?".cyan());
-        let selection = Select::new()
+        let selection = Select::with_theme(&menu_theme)
             .items(&options)
             .interact()
             .unwrap();

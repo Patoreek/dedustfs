@@ -44,5 +44,4 @@ fn delete_screenshots_older_than(days: u32) {
     println!("{}","Screenshots deleted!".red().bold());
     println!("Press Enter to continue...");
     let _ = io::stdin().read_line(&mut String::new()).unwrap();
-    let _ = io::stdout().flush();
 }

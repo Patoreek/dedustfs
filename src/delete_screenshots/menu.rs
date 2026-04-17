@@ -2,6 +2,8 @@ use crate::theme;
 use dialoguer::Select;
 use owo_colors::OwoColorize;
 use std::io::{self, Write};
+use std::fs::read_dir;
+use std::time::UNIX_EPOCH;
 
 const DELETE_OLDER_THAN_30_DAYS: &str = "Delete all screenshots that are older than 30 days";
 const DELETE_OLDER_THAN_60_DAYS: &str = "Delete all screenshots that are older than 60 days";
@@ -41,6 +43,24 @@ fn delete_screenshots_older_than(days: u32) {
     println!("Deleting screenshots older than {} days...", days);
     //TODO: Add progress bar
     //TODO: show files that are being deleted above the progress bar
+
+    let screenshots = read_dir("/Users/patrick/Documents").unwrap();
+    for screenshot in screenshots {
+        let screenshot = screenshot.unwrap();
+        let screenshot_name: String = screenshot.file_name().to_string_lossy().into_owned();
+        let screenshot_path = screenshot.path();
+        let screenshot_date = screenshot.metadata().unwrap().modified().unwrap();
+        let screenshot_date = screenshot_date.duration_since(UNIX_EPOCH).unwrap();
+        let screenshot_date = screenshot_date.as_secs() / 86400;
+        
+        if screenshot_name.contains("Screenshot") {
+            println!("Deleting {} ...\n", screenshot_name);
+        } 
+    }
+
+
+
+
     println!("{}","Screenshots deleted!".red().bold());
     println!("Press Enter to continue...");
     let _ = io::stdin().read_line(&mut String::new()).unwrap();

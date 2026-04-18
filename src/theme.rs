@@ -1,4 +1,4 @@
-use dialoguer::console::{style, Style};
+use dialoguer::console::{Style, style};
 use dialoguer::theme::ColorfulTheme;
 
 pub fn menu_theme() -> ColorfulTheme {
